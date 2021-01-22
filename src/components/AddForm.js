@@ -1,24 +1,49 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { addSmurf } from '../actions/index';
 
-class AddForm extends React.Component {
+const AddForm = (props) => {
 
-    render() {
-        return(<section>
-            <h2>Add Smurf</h2>
-            <form>
-                <div className="form-group">
-                    <label htmlFor="name">Name:</label><br/>
-                    <input onChange={this.handleChange} name="name" id="name" />
-                </div>
+    const [formData, setFormData] = useState({name: '', position: '', nickname: ''});
 
-                <div data-testid="errorAlert" className="alert alert-danger" role="alert">Error: </div>
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(formData);
+        props.dispatch(
+            addSmurf()
+        )
+        }
+
+    const handleChange = (e) => {
+        const value = e.target.value;
+        setFormData({
+            ...formData,
+            [e.target.name]: value,
+            [e.target.position]: value,
+            [e.target.nickname]: value
+        })
+    }
+    
+    return(<section>
+        <h2>Add Smurf</h2>
+        <form onSubmit={handleSubmit}>
+            <div className="form-group">
+                <label htmlFor="name">Name:</label><br/>
+                <input onChange={handleChange} name="name" id="name" />
+                <label htmlFor='position'>Position:</label><br/>
+                <input onChange={handleChange} name='position' id='position' />
+                <label htmlFor='nickname'>Nickname:</label><br/>
+                <input onChange={handleChange} name='nickname' id='nickname'/>
+                <label htmlFor='description'>Description:</label><br/>
+                <input onChange={handleChange} name='description' id='description'/>
+            </div>
+            <div data-testid='errorAlert' className='alert alert-danger' role='alert'>Error: </div>
                 <button>Submit Smurf</button>
             </form>
         </section>);
-    }
 }
 
 export default AddForm;
+
 
 //Task List:
 //1. Add in all necessary import components and library methods.
